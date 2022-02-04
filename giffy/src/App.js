@@ -1,26 +1,44 @@
 import React from 'react'
 import './App.css' 
-import ListOfGifs from './components/ListOfGifs'
 // Para hacer el routing
 import { Link, Route } from "wouter";
+import Home from './pages/Home/home';
+import SearchResults from './pages/SearchResults/searchResults';
+import Detail from './pages/Detail/detail';
+import Context from './context/StaticContext';
+import { GifsContextProvider } from './context/GifsContext';
 
 function App() {
-
-
-
   return (
-    <div className="App">
-      <section className="App-content">
-        <h1>App</h1>
-        <Link href='/gif/panda'>Gifs de pandas</Link>
-        <Link href='/gif/Matrix'>Gifs de Matrix</Link>
-        <Link href='/gif/car'>Gifs de coches</Link>
-        <Link href='/gif/motorbike'>Gifs de motos</Link>
-        <Route 
-          component={ListOfGifs}
-          path="/gif/:keyword" />
-      </section>
-    </div>
+     <Context.Provider value= {
+       {
+        name: 'David desde el provider',
+        activo: false
+       }
+     }>
+      <div className="App">
+        <section className="App-content">
+          <Link to="/">
+            <img className="App-logo" alt='Giffy logo' src='/logo.png' />
+          </Link>
+            <span> GIFFY</span>
+          <GifsContextProvider>
+            <Route 
+              component={Home}
+              path='/'
+            />
+            <Route 
+              component={SearchResults}
+              path='/search/:keyword'
+            />
+            <Route 
+              component={Detail}
+              path='/gif/:id'
+            />
+          </GifsContextProvider>
+        </section>
+      </div>
+    </Context.Provider>
   );
 }
 
